@@ -3,23 +3,23 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 import { Button, FormLabel, FormInput } from 'react-native-elements';
+import firebase from 'firebase';
 import axios from 'axios';
 
-class SignupForm extends Component {
-  // ES2017 state declaration on classes.
-  state = { phone: '' };
-  // ES2017 method declaration on classes.
-  // no need for bind(this)
+class SigninForm extends Component {
+  state = { code: '', phone: '' };
   _handleSubmit = async () => {
     // Can refactor with Redux by placing this in an actionCreator.
+    const { code, phone } = this.state;
     try {
-      await axios.post('/createUser', { phone: this.state.phone });
-      await axios.post('/requestOTP', { phone: this.state.phone });
+      // deconstruct response object.
+      const { data: { token } } = await axios.post('/verifyOTP', {
+        code,
+        phone,
+      });
+      // provide firebase with GCF generated JWT.
+      firebase.auth().signInWithCustomToken(token);
     } catch (e) {
-      // Can handle error better:
-      // this.setState({ error: e.message })
-      // use this.state.error in component to
-      // render the message to the user.
       console.log(e);
     }
   };
@@ -33,10 +33,17 @@ class SignupForm extends Component {
             value={this.state.phone}
           />
         </View>
+        <View style={{ marginBottom: 10 }}>
+          <FormLabel>Enter Code</FormLabel>
+          <FormInput
+            onChangeText={code => this.setState({ code })}
+            value={this.state.code}
+          />
+        </View>
         <Button onPress={this._handleSubmit} title="Submit" />
       </View>
     );
   }
 }
 
-export default SignupForm;
+export default SigninForm;
