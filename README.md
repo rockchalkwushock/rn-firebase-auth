@@ -9,7 +9,7 @@
 
 ## Usage
 
-> NOTE: _Replace **rn-otp** everywhere in the code with **YOUR PROJECT NAME** from firebase. This holds true for both repositories.
+> **NOTE:** _Replace **rn-otp** everywhere in the code with **YOUR PROJECT NAME** from firebase. This holds true for both repositories._
 
 ```bash
 # back-end repository
@@ -22,7 +22,7 @@ touch sensitive.js service_accounts.json
 # copy & paste JSON that is generated from 'Generate New Private Key'
 # found at: https://console.firebase.google.com/project/rn-otp/settings/serviceaccounts/adminsdk
 cd ..
-firebase deploy --project <name>
+firebase deploy --project <name> # must run from root of project directory
 
 # front-end repository
 git clone https://github.com/rockchalkwushock/rn-firebase-auth.git
